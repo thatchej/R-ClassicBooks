@@ -37,31 +37,31 @@ JsonReporter <- R6::R6Class("JsonReporter",
     n = 0L,
     has_tests = FALSE,
     contexts = NA_character_,
-
+    
     start_context = function(context) {
       self$contexts[self$n + 1] <- context
     },
-
+    
     add_result = function(context, test, result) {
       self$has_tests <- TRUE
       self$n <- self$n + 1L
       self$results[[self$n]] <- result
     },
-
+    
     end_reporter = function() {
       if (!self$has_tests) {
         return()
       }
-
+      
       self$cat_line("1..", self$n)
       for (i in 1:self$n) {
-
+        
         if (!is.na(self$contexts[i])) {
           self$cat_line("# Context ", self$contexts[i])
         }
-
+        
         result <- self$results[[i]]
-
+        
         if (expectation_success(result)) {
           self$cat_line("ok ", i, " ", result$test)
         } else if (expectation_broken(result)) {
