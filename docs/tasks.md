@@ -54,11 +54,11 @@ Find the appropriate function to import the csv file located at the path `data/t
 
 Now that you have the `titles.csv` data imported. Import the `data/stats.csv` file as well. Assign the resulting data frame to a `stats` variable.
 
-## 1.4 - Require the readr package
+## 1.4 - Require the dplyr package
 
 If you view the `titles` and `stats` data frames in the upper right of RStudio, you will notice that both have a column called `id`. We need to combine these two frames into one.
 
-The `dplyr` package has several functions to join two data frames together. 
+The `dplyr` package has several functions to join two data frames together.
 
 Require the `dplyr` package in `data.R` below the other packages in `data.R`. 
 
@@ -119,7 +119,7 @@ Switch to `time.R`, below the existing code, use the proper function to convert 
 ## 1.13 - Require the ggplot2 package
 For plotting the `time` data frame, open `data.R` and require the `ggplot2` package.
 
-## 1.14 - Creating a Line Plot
+## 1.14 - Construct a Plot
 Switch to `time.R`, save a call to the `ggplot()` function in a variable called `p`.
 
 On a new line call the `plot()` function passing in `p`.
@@ -127,7 +127,7 @@ On a new line call the `plot()` function passing in `p`.
 ## 1.15 - Creating a Line Plot
 Create a line plot by adding (+) `geom_line()` to the `ggplot()` call.
 
-## 1.16 Plot Configuration
+## 1.16 - Plot Configuration
 Pass the correct values to the `ggplot()` function. These values should be wrapped in a call to the `aes()` function.
 
 - The x-axis should be the `year`.

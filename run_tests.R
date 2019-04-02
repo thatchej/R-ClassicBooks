@@ -1,6 +1,7 @@
+library('optparse')
+library('assertthat')
 library('testthat')
 library('checkmate')
-library('optparse')
 
 option_list <- list(
     make_option(c("-m", "--module"), type="character", default="all",
