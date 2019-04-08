@@ -42,7 +42,9 @@ We will use the tidyverse collection of packages. For more on the tidyverse and 
 
 First Task
 ---
-Open the file called `data.R` that is located in the root folder of the project. Require the `readr` package.
+Open the file called `time.R` that is located in the root folder of the project. We will be working in this file for the duration of this module. 
+
+At the top require the `readr` package.
 
 ## 1.2 - Read the titles data
 
@@ -60,10 +62,10 @@ If you view the `titles` and `stats` data frames in the upper right of RStudio, 
 
 The `dplyr` package has several functions to join two data frames together.
 
-Require the `dplyr` package in `data.R` below the other packages in `data.R`. 
+Require the `dplyr` package below the `readr` package. 
 
 ## 1.5 - Join titles and stats
-Still in `data.R`, let's align the titles and author information with the correct stats. 
+Let's align the titles and author information with the correct stats. 
 
 Use the appropriate function from the `dplyr` package to join the `titles` and `stats` data frames into one data frame. *Note: Each data set has the same number of records. They also have an identical set of `id`s.* 
 
@@ -71,36 +73,30 @@ Save the merged data frame as `books`.
 
 [[ IMAGE ]]
 
-## 1.6 - Requiring a File
-In this module's plot we would like to show certain statistics about Charles Dickens' works over time. For example, "How many words did he pen in 1870?" 
-
-We will prepare the data and create this plot in a new file.
-
-Open the file called `time.R`. 
-
-In `time.R` we need access to the `books` data frame from `data.R`. Use the `source()` function to import the `data.R` file. 
-
-## 1.7 - Find Dickens' Works
+## 1.6 - Find Dickens' Works
 
 For our plot we are only concerned about Charles Dickens' works. In `time.R`, using functions from the `dplyr` package create a data frame that only contains books written by Dickens. Call the new data frame `dickens`.
 
 *Note: If you use `str_detect()` from the `stringr` package you will need to require it first in `data.R`.*
 
-## 1.8 - Refining Columns
+## 1.7 - Refining Columns
+There are several statistics about each literary work in our data set. We only need a few of these.
 
-Still in `time.R`, refine the columns of the `dickens` data frame with a pipe and `select()` function. We only want the columns: `id`, `words`, `sentences`, `to_be_verbs`, `contractions`, `pauses`, `cliches`, and `similes`. 
+Refine the columns of the `dickens` data frame with a pipe and `select()` function. We only want the columns: `id`, `words`, `sentences`, `to_be_verbs`, `contractions`, `pauses`, `cliches`, and `similes`. 
 
-The resulting data frame should again be called `dickens`.
+The resulting data frame should be called `dickens_stats`.
 
-## 1.9 - Importing Year Published
+## 1.8 - Importing Year Published
 Since the plot we are creating is about Charles Dickens' writing statistics over time we need to have the year each work was published. However, neither dataset contained the year of publication. 
 
 This information is in the file `data/published.csv`. Import this new file in `time.R`, and call the resulting data frame `published`.
 
-## 1.10 - Joining year published
-The `published` data frame should now contain the `id` and `year` for all of Dickens' works. Join the `published` and `dickens` data frames, call the resulting data frame `time`.
+## 1.9 - Joining year published
+The `published` data frame should now contain the `id` and `year` for all of Dickens' works. 
 
-## 1.11 - Require the tidyr package
+Join the `published` and `dickens_stats` data frames, call the resulting data frame `time`.
+
+## 1.10 - Require the tidyr package
 The `time` data frame now looks like this:
 
 [[IMAGE]]
@@ -109,26 +105,30 @@ This data frame has several columns, creating what is referred to as wide shape.
 
 The process of converting data frames between wide and long is a common operation and can be done with functions like [`gather()`](https://tidyr.tidyverse.org/reference/gather.html) and [`spread()`](https://tidyr.tidyverse.org/reference/spread.html) from the `tidyr` package.
 
-Switch to the `data.R` file and require the `tidyr` package. 
+Require the `tidyr` package below the other packages. 
 
-## 1.12 - Reshaping data frames
-Switch to `time.R`, below the existing code, use the proper function to convert our wide data frame to a long data frame. The columns that should be reshaped are `words` through `similes`. Save the new long form data frame as `time`.
+## 1.11 - Reshaping data frames
+Use the proper function to convert our wide data frame to a long data frame. The columns that should be reshaped are `words` through `similes`. Save the new long form data frame as `time_long`.
 
 [[ IMAGE ]]
 
-## 1.13 - Require the ggplot2 package
-For plotting the `time` data frame, open `data.R` and require the `ggplot2` package.
+## 1.12 - Require the ggplot2 package
+To plot the `time_long` data frame we are going to use the ggplot2 library, also from the tidyverse. `ggplot2` is base on the book "The Grammar of Graphics". The basics are that you create aesthetic mappings between graphical primitives and variables.
 
-## 1.14 - Construct a Plot
-Switch to `time.R`, save a call to the `ggplot()` function in a variable called `p`.
+For plotting the `time_long` data frame, require the `ggplot2` package below the other packaages.
+
+## 1.13 - Construct a Plot
+Lets add a call to the core `ggplot()` function and save the results to a variable called `p`.
 
 On a new line call the `plot()` function passing in `p`.
 
-## 1.15 - Creating a Line Plot
+## 1.14 - Creating a Line Plot
 Create a line plot by adding (+) `geom_line()` to the `ggplot()` call.
 
-## 1.16 - Plot Configuration
-Pass the correct values to the `ggplot()` function. These values should be wrapped in a call to the `aes()` function.
+## 1.15 - Plot Configuration
+Pass the correct values to the `ggplot()` function. The first argument should be the `time` data frame. The second argument is the set of aesthetic mappings for the plot. 
+
+All of the mappings below should be wrapped in a single call to the `aes()` function. 
 
 - The x-axis should be the `year`.
 - The y-axis should be the `count`.

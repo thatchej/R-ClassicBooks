@@ -1,18 +1,17 @@
 library('optparse')
-library('assertthat')
 library('testthat')
-library('checkmate')
+library('mockery')
 
 option_list <- list(
     make_option(c("-m", "--module"), type="character", default="all",
         help="Module to test."),
-    make_option(c("-r", "--reporter"), type="character", default="progress",
+    make_option(c("-r", "--reporter"), type="character", default="junit",
         help="Reporter to use.")
     )
 opt <- parse_args(OptionParser(option_list=option_list))
 
-tests <- function(module='all', reporter='progress') {
-  if (module == "module1" || module == "module2") {
+tests <- function(module='all', reporter='tap') {
+  if (module == "module1") {
     fpath <- paste0('tests/tests_', module, '.R')
     if(test_file_exists(fpath)) {
       test_file(fpath, reporter=reporter)
