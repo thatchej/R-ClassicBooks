@@ -111,6 +111,11 @@ Version: 0.4.2
 Hash: b4096a4f6a6736138e9a825c2baaacf0
 Requires: pkgconfig, rlang
 
+Package: import
+Source: CRAN
+Version: 1.1.0
+Hash: e5560b2ba6fbb7fd752b12dfa5b60ee7
+
 Package: labeling
 Source: CRAN
 Version: 0.3
@@ -120,6 +125,12 @@ Package: lazyeval
 Source: CRAN
 Version: 0.2.2
 Hash: 563563691bea3cde6945a98996d7c166
+
+Package: lobstr
+Source: CRAN
+Version: 1.0.1
+Hash: 748f1cf5de3ea6ea4f969209ddf86734
+Requires: Rcpp, crayon, rlang
 
 Package: magrittr
 Source: CRAN

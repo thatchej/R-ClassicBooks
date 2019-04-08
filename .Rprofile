@@ -2,7 +2,7 @@
 source("packrat/init.R")
 #### -- End Packrat Autoloader -- ####
 
-packrat::restore()
+# packrat::restore()
 
 .run <- new.env()
 source("run_tests.R", local = .run)
