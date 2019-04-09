@@ -32,6 +32,9 @@ for (line in parsed) {
       }
     }
   }
+  if(line[[1]] == 'plot' && line[[2]] == 'p') {
+    plot_call <- TRUE
+  }
 }
 
 user_time <- file('time.R')
@@ -74,6 +77,9 @@ test_that("Find Dickens' Works @filter-data", {
 
 test_that('Refining Columns. @refine-columns', {
   expect('dickens_stats' %in% ls(envir = user), 'Does the `dickens_stats` data frame exist in `time.R`?')
+  correct_names <- c("id", "words", "sentences", "to_be_verbs", "contractions", "pauses", "cliches", "similes")
+  user_names <- names(user$dickens_stats)
+  expect(identical(correct_names, user_names), 'The column names do not match?')
   expect(isTRUE(all_equal(user$dickens_stats, solution$dickens_stats)), 'Does the `dickens_stats` data frame have the correct columns?')
 })
 
@@ -84,6 +90,7 @@ test_that('Importing Year Published. @read-published-csv', {
 
 test_that('Joining year published. @join-dickens-published', {
   expect('time' %in% ls(envir = user), 'Does the `time` data frame exist in `time.R`?')
+
   expect(isTRUE(all_equal(user$time, solution$time)), 'Are you joining the `dickens_stats` and `published` data frames with `full_join()`?')
 })
 
@@ -113,5 +120,6 @@ test_that('Plot Configuration. @aes', {
   expect(exists('aes_x') && aes_x == 'year', 'Is the `x` mapping of the `aes()` function the `year` column?')
   expect(exists('aes_y') && aes_y == 'value', 'Is the `y` mapping of the `aes()` function the `value` column?')
   expect(exists('aes_color') && aes_color == 'type', 'Is the `color` mapping of the `aes()` function the `type` column?')
+  expect(exists('plot_call'), 'Have you called the `plot()` function?')
 })
 

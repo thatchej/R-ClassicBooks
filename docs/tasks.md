@@ -135,4 +135,4 @@ All of the mappings below should be wrapped in a single call to the `aes()` func
 - The y-axis should be the `value`.
 - The color should be the `type`.
 
-
+To view the plot in RStudio call the `plot()` function passing in `p`.
