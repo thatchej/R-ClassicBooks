@@ -1,71 +1,47 @@
 library(rlang)
-
-# expr_type <- function(x) {
-#   if (rlang::is_syntactic_literal(x)) {
-#     "constant"
-#   } else if (is.symbol(x)) {
-#     "symbol"
-#   } else if (is.call(x)) {
-#     "call"
-#   } else if (is.pairlist(x)) {
-#     "pairlist"
-#   } else {
-#     typeof(x)
-#   }
-# }
-# 
-# switch_expr <- function(x, ...) {
-#   switch(expr_type(x),
-#          ...,
-#          stop("Don't know how to handle type ", typeof(x), call. = FALSE)
-#   )
-# }
-# 
-# flat_map_chr <- function(.x, .f, ...) {
-#   purrr::flatten_chr(purrr::map(.x, .f, ...))
-# }
-# 
-# find_assign <- function(x) unique(find_assign_rec(enexpr(x)))
-# 
-# find_assign_call <- function(x) {
-#   if (is_call(x, "<-") && is_symbol(x[[2]])) {
-#     lhs <- as_string(x[[2]])
-#     children <- as.list(x)[-1]
-#   } else {
-#     lhs <- character()
-#     children <- as.list(x)
-#   }
-#   
-#   c(lhs, flat_map_chr(children, find_assign_rec))
-# }
-# 
-# find_assign_rec <- function(x) {
-#   switch_expr(x,
-#               constant = ,
-#               symbol = character(),
-#               pairlist = flat_map_chr(x, find_assign_rec),
-#               call = find_assign_call(x)
-#   )
-# }
+library(lobstr)
 
 setwd('..')
 
-parsed <- parse_exprs(file('time.R'))
-
-for (ex in parsed) {
-  print(toString(ex))
-}
-
-# sf <- srcfile('time.R')
-# try(parse(file = user_time, srcfile = sf))
-# parsed <- getParseData(sf)
-#close(user_time)
-
-user <- new.env()
-source('time.R', local = user)
+ex_env <- new.env()
+source('tests/expressions.R', local = ex_env)
 
 solution <- new.env()
 source('tests/solution.R', local = solution)
+
+parsed <- parse_exprs(file('time.R'))
+
+for (line in parsed) {
+  if(is_call(line, '<-') && is_symbol(line[[2]]) && line[[2]] == 'p') {
+    base_ggplot_call <- line[[3]]
+    if (base_ggplot_call[[1]] == 'ggplot') {
+      simple_ggplot_call <- TRUE
+    } else if (base_ggplot_call[[1]] == '+' && base_ggplot_call[[3]] == 'geom_line()') {
+      simple_ggplot_call <- TRUE
+      geom_line_call <- TRUE
+      complex_ggplot_call <- base_ggplot_call[[2]]
+      if(complex_ggplot_call[[2]] == 'time_long') {
+        correct_df <- TRUE
+      }
+      aes_call <- complex_ggplot_call[[3]]
+      if (is_call(aes_call) && aes_call[[1]] == 'aes') {
+        aes_call_s <- call_standardise(aes_call)
+        aes_x <- aes_call_s$x
+        aes_y <- aes_call_s$y
+        aes_color <- aes_call_s$color
+      }
+    }
+  }
+}
+
+user_time <- file('time.R')
+sf <- srcfile('time.R')
+try(parse(file = user_time, srcfile = sf))
+parsed_df <- getParseData(sf)
+close(user_time)
+
+user <- new.env()
+source('time.R', local = user)
 
 context('Module 01')
 test_that('Require the readr package. @readr-package', {
@@ -124,12 +100,18 @@ test_that('Require the ggplot2 package. @ggplot2-package', {
   expect('ggplot2' %in% (.packages()), 'Have you required the `ggplot2` package in `time.R` with the `library()` function?')
 })
 
-# test_that('Creating a Line Plot. @ggplot-call', {
-# })
-# 
-# test_that('Creating a Line Plot. @line-plot', {
-# })
-# 
-# test_that('Plot Configuration. @aes', {
-# })
+test_that('Construct a Plot. @ggplot-call', {
+  expect(exists('simple_ggplot_call'), 'Was the variable `p` set to the result of a call to `ggplot()`')
+})
+
+test_that('Modifying a Plot Type. @line-plot', {
+  expect(exists('geom_line_call'), 'Have you added the correct function call to `ggplot()` to create a line plot?')
+})
+
+test_that('Plot Configuration. @aes', {
+  expect(exists('correct_df'), 'Is the first argument to the `ggplot()` function the `time_long` data frame?')
+  expect(exists('aes_x') && aes_x == 'year', 'Is the `x` mapping of the `aes()` function the `year` column?')
+  expect(exists('aes_y') && aes_y == 'value', 'Is the `y` mapping of the `aes()` function the `value` column?')
+  expect(exists('aes_color') && aes_color == 'type', 'Is the `color` mapping of the `aes()` function the `type` column?')
+})
 

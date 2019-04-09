@@ -108,7 +108,8 @@ The process of converting data frames between wide and long is a common operatio
 Require the `tidyr` package below the other packages. 
 
 ## 1.11 - Reshaping data frames
-Use the proper function to convert our wide data frame to a long data frame. The columns that should be reshaped are `words` through `similes`. Save the new long form data frame as `time_long`.
+Use the proper function to convert our wide data frame to a long data frame. The columns that should be reshaped are `words` through `similes`. There will be two new columns that are created as part of the process. Name the column that describes the type of item `type`, and the column that holds the value of that item `value`.
+Save the new long form data frame as `time_long`. 
 
 [[ IMAGE ]]
 
@@ -122,16 +123,16 @@ Lets add a call to the core `ggplot()` function and save the results to a variab
 
 On a new line call the `plot()` function passing in `p`.
 
-## 1.14 - Creating a Line Plot
+## 1.14 - Modifying a Plot Type
 Create a line plot by adding (+) `geom_line()` to the `ggplot()` call.
 
 ## 1.15 - Plot Configuration
-Pass the correct values to the `ggplot()` function. The first argument should be the `time` data frame. The second argument is the set of aesthetic mappings for the plot. 
+Pass the correct values to the `ggplot()` function. The first argument should be the `time_long` data frame. The second argument is the set of aesthetic mappings for the plot. 
 
 All of the mappings below should be wrapped in a single call to the `aes()` function. 
 
 - The x-axis should be the `year`.
-- The y-axis should be the `count`.
-- The color should be the `key`.
+- The y-axis should be the `value`.
+- The color should be the `type`.
 
 
