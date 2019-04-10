@@ -72,7 +72,7 @@ Require the `dplyr` package below the `readr` package.
 ## 1.5 - Join titles and stats
 Let's align the titles and author information with the correct stats. 
 
-Use the appropriate function from the `dplyr` package to join the `titles` and `stats` data frames into one data frame. *Note: Each data set has the same number of records. They also have an identical set of `id`s.* 
+Use the appropriate function from the `dplyr` package to join the `titles` and `stats` data frames into one data frame. *Note: Each dataset has the same number of records. They also have an identical set of `id`s.* 
 
 Save the merged data frame as `books`.
 
