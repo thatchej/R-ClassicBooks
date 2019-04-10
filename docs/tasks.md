@@ -63,7 +63,7 @@ Now that you have the `titles.csv` data imported. Import the `data/stats.csv` fi
 
 ## 1.4 - Require the dplyr package
 
-If you click on the `titles` and `stats` data frames in the upper right of `RStudio`, you will notice that both have a column called `id`. We need to combine these two frames into one.
+If you click on the `titles` and `stats` data frames in the upper right of `RStudio`, you will notice that both have a column called `id`. We need to combine these two data frames into one.
 
 The `dplyr` package has several functions to join two data frames together.
 
