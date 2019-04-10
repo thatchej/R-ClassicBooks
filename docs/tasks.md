@@ -129,7 +129,7 @@ For plotting the `time_long` data frame, require the `ggplot2` package below the
 
 ## 1.13 - Initialize a Plot Object
 
-To construct a plot we will use the core function of the `ggplot2` library, `ggplot()`, which stands for grammar and graphics plot. You can find the relevant documentation here: [`ggplot()`](https://ggplot2.tidyverse.org/reference/ggplot.html)
+To construct a plot we will use the core function of the `ggplot2` library, `ggplot()`, which stands for grammar and graphics plot. You can find the relevant documentation here: [`ggplot()`](https://ggplot2.tidyverse.org/reference/ggplot.html).
 
 Let's add a call to the core `ggplot()` function and save the results to a variable called `p`.
 
