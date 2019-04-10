@@ -2,27 +2,32 @@
 
 ## Installation
 
-Double-click on the `R-ClassicBooks.Rproj` in the root folder of the project. This will open RStudio.
+Double-click on the `R-ClassicBooks.Rproj` in the root folder of the project. This will open `RStudio`.
 
-The first time you open the project it will automatically install the needed R packages. This install process can take some time. 
+To install the needed R packages for this project run the following command in the R console. 
+*Note: Make sure you are in the `R console` and not the `terminal` when running this command.*
 
-Every time that you open the project thereafter the  `packrat::restore()` command will automatically run and update your packages if needed. 
+```
+> packrat::restore()
+```
+
+This install process can take some time, when it is finished the prompt will return.
+The console will list all of the packages that were installed.
+You can also click on the `Packages` tab in the bottom right of `RStudio` to verify the install process was successful. 
 
 ## Verify Setup
 
-In order to verify that everything is setup correctly, run the following command from the `R console` in RStudio.
+In order to verify that everything is setup correctly, run the following command from the `R console` in `RStudio`.
 
 `> .run$tests()`
 
 This should show you the failing tests. This is good! We'll be fixing these tests once we jump into the build step.
 
-Every time you want to check your work locally you can type `.run$tests()` in the `R console`, and it will report the status of every task in that module.
-
-As you move through the modules, you can run module-specific tests with `.run$tests('module1')`, replacing the number with the one that corresponds to the desired module.
+Every time you want to check your work locally you can type `.run$tests()` in the `R console`, and it will report the status of every task.
 
 ## Previewing Your Work
 
-In order to see your work, you can click the `source` button at the top right of the RStudio editor window. data frames can be viewed in the top right and any plots will show in the bottom right.
+In order to see your work, you can click the `source` button at the top right of the `RStudio` editor window. Data frames can be viewed in the top right and any plots will show in the bottom right in the `Plots` tab.
 
 # Module 01 - Plotting Charles Dickens' Writing Statistics
 
@@ -32,9 +37,9 @@ Project Overview
 -----
 In this module we'll create a visualization that presents data about Charles Dickens' literary works. 
 
-The dataset provided for this module is separated into two main csv files. One called 'titles.csv' and the other called 'stats.csv'. 
+The dataset provided for this module is separated into two main csv files. One called `titles.csv` and the other called `stats.csv`. 
 
-Each file was created using data compiled from Project Gutenberg. There is a common column between the datasets, the Project Gutenberg ebook `id`, which we will use to join the two csv files together. 
+Each file was created using data compiled from Project Gutenberg. There is a common column between the datasets, the Project Gutenberg eBook `id`, which we will use to join the two csv files together. 
 
 We will filter this data to only include Dickens' work and then plot it using the ggplot2 package.
 
@@ -58,7 +63,7 @@ Now that you have the `titles.csv` data imported. Import the `data/stats.csv` fi
 
 ## 1.4 - Require the dplyr package
 
-If you view the `titles` and `stats` data frames in the upper right of RStudio, you will notice that both have a column called `id`. We need to combine these two frames into one.
+If you click on the `titles` and `stats` data frames in the upper right of `RStudio`, you will notice that both have a column called `id`. We need to combine these two frames into one.
 
 The `dplyr` package has several functions to join two data frames together.
 
@@ -80,14 +85,14 @@ For our plot we are only concerned about Charles Dickens' works. In `time.R`, us
 *Note: If you use `str_detect()` from the `stringr` package you will need to require it first in `data.R`.*
 
 ## 1.7 - Refining Columns
-There are several statistics about each literary work in our data set. We only need a few of these.
+There are several statistics about each literary work in our dataset. We only need a few of these.
 
 Refine the columns of the `dickens` data frame with a pipe and `select()` function. We only want the columns: `id`, `words`, `sentences`, `to_be_verbs`, `contractions`, `pauses`, `cliches`, and `similes`. 
 
 The resulting data frame should be called `dickens_stats`.
 
 ## 1.8 - Importing Year Published
-Since the plot we are creating is about Charles Dickens' writing statistics over time we need to have the year each work was published. However, neither dataset contained the year of publication. 
+Since the plot we are creating is about Charles Dickens' writing statistics over time we need to have the year each work was published. However, neither dataset contains the year of publication. 
 
 This information is in the file `data/published.csv`. Import this new file in `time.R`, and call the resulting data frame `published`.
 
@@ -108,7 +113,11 @@ The process of converting data frames between wide and long is a common operatio
 Require the `tidyr` package below the other packages. 
 
 ## 1.11 - Reshaping data frames
-Use the proper function to convert our wide data frame to a long data frame. The columns that should be reshaped are `words` through `similes`. There will be two new columns that are created as part of the process. Name the column that describes the type of item `type`, and the column that holds the value of that item `value`.
+Use the proper function to convert our wide data frame to a long data frame. The columns that should be reshaped are `words` through `similes`. 
+
+There will be two new columns that are created as part of the process. 
+Name the column that describes the type of item, `type`, and the column that holds the value of that item, `value`.
+
 Save the new long form data frame as `time_long`. 
 
 [[ IMAGE ]]
@@ -116,23 +125,32 @@ Save the new long form data frame as `time_long`.
 ## 1.12 - Require the ggplot2 package
 To plot the `time_long` data frame we are going to use the ggplot2 library, also from the tidyverse. `ggplot2` is base on the book "The Grammar of Graphics". The basics are that you create aesthetic mappings between graphical primitives and variables.
 
-For plotting the `time_long` data frame, require the `ggplot2` package below the other packaages.
+For plotting the `time_long` data frame, require the `ggplot2` package below the other packages.
 
-## 1.13 - Construct a Plot
-Lets add a call to the core `ggplot()` function and save the results to a variable called `p`.
+## 1.13 - Initialize a Plot Object
 
-On a new line call the `plot()` function passing in `p`.
+To construct a plot we will use the core function of the `ggplot2` library, `ggplot()`, which stands for grammar and graphics plot. You can find the relevant documentation here: [`ggplot()`](https://ggplot2.tidyverse.org/reference/ggplot.html)
 
-## 1.14 - Modifying a Plot Type
-Create a line plot by adding (+) `geom_line()` to the `ggplot()` call.
+Let's add a call to the core `ggplot()` function and save the results to a variable called `p`.
 
-## 1.15 - Plot Configuration
-Pass the correct values to the `ggplot()` function. The first argument should be the `time_long` data frame. The second argument is the set of aesthetic mappings for the plot. 
+To view the plot in `RStudio`, on a new line call the `plot()` function passing in `p`.
 
-All of the mappings below should be wrapped in a single call to the `aes()` function. 
+## 1.14 - Adding a Component
+The call to `ggplot()` creates a plot object, in our case `p`. The call to `ggplot()` is almost always followed by a call to one or more geom functions. 
+Each geom function creates a layer on the plot. 
+
+Create a line plot by adding `+` the `geom_line()` geom function to the `ggplot()` call.
+
+## 1.15 - Aesthetic Mappings
+Columns in our `time_long` data frame can be mapped to a layer using the `aes()` function.
+
+Pass the `time_long` data frame as the first argument to the `ggplot()` function. 
+The second argument should be a call to the `aes()` function. 
+
+The following mappings should be passed to the `aes()` function. 
 
 - The x-axis should be the `year`.
 - The y-axis should be the `value`.
 - The color should be the `type`.
 
-To view the plot in RStudio call the `plot()` function passing in `p`.
+To view the plot click the `Source` button in the upper right of the editor pane.
