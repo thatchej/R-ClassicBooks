@@ -37,9 +37,9 @@ Project Overview
 -----
 In this module we'll create a visualization that presents data about Charles Dickens' literary works. 
 
-The dataset provided for this module is separated into two main csv files. One called `titles.csv` and the other called `stats.csv`. 
+The data set provided for this module is separated into two main csv files. One called `titles.csv` and the other called `stats.csv`. 
 
-Each file was created using data compiled from Project Gutenberg. There is a common column between the datasets, the Project Gutenberg eBook `id`, which we will use to join the two csv files together. 
+Each file was created using data compiled from Project Gutenberg. There is a common column between the data sets, the Project Gutenberg eBook `id`, which we will use to join the two csv files together. 
 
 We will filter this data to only include Dickens' work and then plot it using the ggplot2 package.
 
@@ -72,7 +72,7 @@ Require the `dplyr` package below the `readr` package.
 ## 1.5 - Join titles and stats
 Let's align the titles and author information with the correct stats. 
 
-Use the appropriate function from the `dplyr` package to join the `titles` and `stats` data frames into one data frame. *Note: Each dataset has the same number of records. They also have an identical set of `id`s.* 
+Use the appropriate function from the `dplyr` package to join the `titles` and `stats` data frames into one data frame. *Note: Each data set has the same number of records. They also have an identical set of `id`s.* 
 
 Save the merged data frame as `books`.
 
@@ -85,14 +85,14 @@ For our plot we are only concerned about Charles Dickens' works. In `time.R`, us
 *Note: If you use `str_detect()` from the `stringr` package you will need to require it first in `data.R`.*
 
 ## 1.7 - Refining Columns
-There are several statistics about each literary work in our dataset. We only need a few of these.
+There are several statistics about each literary work in our data set. We only need a few of these.
 
 Refine the columns of the `dickens` data frame with a pipe and `select()` function. We only want the columns: `id`, `words`, `sentences`, `to_be_verbs`, `contractions`, `pauses`, `cliches`, and `similes`. 
 
 The resulting data frame should be called `dickens_stats`.
 
 ## 1.8 - Importing Year Published
-Since the plot we are creating is about Charles Dickens' writing statistics over time we need to have the year each work was published. However, neither dataset contains the year of publication. 
+Since the plot we are creating is about Charles Dickens' writing statistics over time we need to have the year each work was published. However, neither data set contains the year of publication. 
 
 This information is in the file `data/published.csv`. Import this new file in `time.R`, and call the resulting data frame `published`.
 
