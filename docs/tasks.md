@@ -55,11 +55,11 @@ At the top require the `readr` package.
 
 The `readr` package, from tidyverse, includes several functions to import and work with rectangular data. 
 
-Find the appropriate function to import the csv file located at the path `data/titles.csv`. Save the resulting data frame as `titles`.
+Find the appropriate function to import the csv file located at the path `data/titles.csv`. Save the resulting data frame in a variable named `titles`.
 
 ## 1.3 - Read the stats data
 
-Now that you have the `titles.csv` data imported. Import the `data/stats.csv` file as well. Assign the resulting data frame to a `stats` variable.
+Now that you have the `titles.csv` data imported, import the `data/stats.csv` file as well. Save the resulting data frame in a variable named `stats`.
 
 ## 1.4 - Require the dplyr package
 
@@ -74,13 +74,13 @@ Let's align the titles and author information with the correct stats.
 
 Use the appropriate function from the `dplyr` package to join the `titles` and `stats` data frames into one data frame. *Note: Each data set has the same number of records. They also have an identical set of `id`s.* 
 
-Save the merged data frame as `books`.
+Save the merged data frame in a variable named `books`.
 
 [[ IMAGE ]]
 
 ## 1.6 - Find Dickens' Works
 
-For our plot we are only concerned about Charles Dickens' works. In `time.R`, using functions from the `dplyr` package create a data frame that only contains books written by Dickens. Call the new data frame `dickens`.
+For our plot we are only concerned about Charles Dickens' works. In `time.R`, using functions from the `dplyr` package create a data frame that only contains books written by Dickens. Name the new data frame `dickens`.
 
 *Note: If you use `str_detect()` from the `stringr` package you will need to require it first in `data.R`.*
 
@@ -89,7 +89,7 @@ There are several statistics about each literary work in our data set. We only n
 
 Refine the columns of the `dickens` data frame with a pipe and `select()` function. We only want the columns: `id`, `words`, `sentences`, `to_be_verbs`, `contractions`, `pauses`, `cliches`, and `similes`. 
 
-The resulting data frame should be called `dickens_stats`.
+The resulting data frame should be named `dickens_stats`.
 
 ## 1.8 - Importing Year Published
 Since the plot we are creating is about Charles Dickens' writing statistics over time we need to have the year each work was published. However, neither data set contains the year of publication. 
@@ -122,6 +122,15 @@ Save the new long form data frame as `time_long`.
 
 [[ IMAGE ]]
 
+Use the proper function to convert our wide data frame to a long data frame. The columns that should be reshaped are `words` through `similes`. 
+
+There will be two new columns that are created as part of the process. 
+Name the column that describes the type of item `type`, and the column that holds the value of that item `value`.
+
+Save the new long form data frame as `time_long`. 
+
+[[ IMAGE ]]
+
 ## 1.12 - Require the ggplot2 package
 To plot the `time_long` data frame we are going to use the ggplot2 library, also from the tidyverse. `ggplot2` is base on the book "The Grammar of Graphics". The basics are that you create aesthetic mappings between graphical primitives and variables.
 
@@ -133,13 +142,12 @@ To construct a plot we will use the core function of the `ggplot2` library, `ggp
 
 Let's add a call to the core `ggplot()` function and save the results to a variable called `p`.
 
-To view the plot in `RStudio`, on a new line call the `plot()` function passing in `p`.
+To view the plot in `RStudio`, on a new line call the `plot()` function and pass in `p` as an argument.
 
 ## 1.14 - Adding a Component
-The call to `ggplot()` creates a plot object, in our case `p`. The call to `ggplot()` is almost always followed by a call to one or more geom functions. 
-Each geom function creates a layer on the plot. 
+The call to `ggplot()` creates a plot object, in our case `p`. The call to `ggplot()` is almost always followed by a call to one or more geom functions. Each geom function creates a layer on the plot. 
 
-Create a line plot by adding `+` the `geom_line()` geom function to the `ggplot()` call.
+Add a layer to the plot that has the mappings for a line plot. This is done by adding the `geom_line()` function to the ggplot function with the plus operator. **Hint: ggplot() + geom_function()**
 
 ## 1.15 - Aesthetic Mappings
 Columns in our `time_long` data frame can be mapped to a layer using the `aes()` function.
