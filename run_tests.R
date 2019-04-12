@@ -15,7 +15,7 @@ tests <- function(module = 'all', reporter = 'tap') {
       print(paste('No module named:', module))
     }
   } else {
-    print('Please Run `packrat::restore()`.')
+    warning('Please run `packrat::restore()` to install the needed packages.')
   }
 }
 
