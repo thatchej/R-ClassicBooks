@@ -112,7 +112,7 @@ The process of converting data frames between wide and long is a common operatio
 
 Require the `tidyr` package below the other packages. 
 
-## 1.11 - Reshaping data frames
+## 1.11 - Reshaping a data frame
 Use the proper function to convert our wide data frame to a long data frame. The columns that should be reshaped are `words` through `similes`. 
 
 There will be two new columns that are created as part of the process. 
