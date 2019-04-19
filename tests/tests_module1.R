@@ -108,7 +108,6 @@ test_that('Require the ggplot2 package. @ggplot2-package', {
 
 test_that('Initialize a Plot Object. @ggplot', {
   expect(exists('simple_ggplot_call'), 'Was the variable `p` set to the result of a call to `ggplot()`')
-  expect(exists('plot_call'), 'Have you called the `plot()` function?')
 })
 
 test_that('Adding a Component. @geom-line', {
@@ -120,5 +119,6 @@ test_that('Aesthetic Mappings. @aes', {
   expect(exists('aes_x') && aes_x == 'year', 'Is the `x` mapping in the `aes()` function set to the `year` column?')
   expect(exists('aes_y') && aes_y == 'value', 'Is the `y` mapping in the `aes()` function set to the `value` column?')
   expect(exists('aes_color') && aes_color == 'type', 'Is the `color` mapping in the `aes()` function set to the `type` column?')
+  expect(exists('plot_call'), 'Have you called the `plot()` function?')
 })
 

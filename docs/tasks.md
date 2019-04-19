@@ -122,15 +122,6 @@ Save the new long form data frame as `time_long`.
 
 [[ IMAGE ]]
 
-Use the proper function to convert our wide data frame to a long data frame. The columns that should be reshaped are `words` through `similes`. 
-
-There will be two new columns that are created as part of the process. 
-Name the column that describes the type of item `type`, and the column that holds the value of that item `value`.
-
-Save the new long form data frame as `time_long`. 
-
-[[ IMAGE ]]
-
 ## 1.12 - Require the ggplot2 package
 To plot the `time_long` data frame we are going to use the ggplot2 library, also from the tidyverse. `ggplot2` is base on the book "The Grammar of Graphics". The basics are that you create aesthetic mappings between graphical primitives and variables.
 
