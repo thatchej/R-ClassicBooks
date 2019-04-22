@@ -37,21 +37,23 @@ for (line in parsed) {
   }
   
   if(line[[1]] == 'library') {
-    if(line[[2]] == 'readr'){
+    imported_package <- toString(line[[2]])
+    if(imported_package == 'readr'){
       readr_package <- TRUE
     }
-    if(line[[2]] == 'dplyr'){
+    if(imported_package == 'dplyr'){
       dplyr_package <- TRUE
     }
-    if(line[[2]] == 'stringr'){
+    if(imported_package == 'stringr'){
       stringr_package <- TRUE
     }
-    if(line[[2]] == 'tidyr'){
+    if(imported_package == 'tidyr'){
       tidyr_package <- TRUE
     }
-    if(line[[2]] == 'ggplot2'){
+    if(imported_package == 'ggplot2'){
       ggplot2_package <- TRUE
     }
+    
   }
 }
 
