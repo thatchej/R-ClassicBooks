@@ -27,5 +27,5 @@ if (!interactive()) {
                 help='Reporter to use.')
   )
   opt <- parse_args(OptionParser(option_list=option_list))
-  test_dir(paste0(getwd(), '/tests/'), reporter = opt$reporter)
+  test_file(paste0(getwd(), '/tests/tests_module1.R'), reporter = opt$reporter)
 }

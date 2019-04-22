@@ -1,13 +1,12 @@
 library(rlang)
-library(lobstr)
 
 setwd('..')
 
-ex_env <- new.env()
-source('tests/expressions.R', local = ex_env)
-
 solution <- new.env()
 source('tests/solution.R', local = solution)
+
+user <- new.env()
+source('time.R', local = user)
 
 parsed <- parse_exprs(file('time.R'))
 
@@ -56,15 +55,6 @@ for (line in parsed) {
     
   }
 }
-
-user_time <- file('time.R')
-sf <- srcfile('time.R')
-try(parse(file = user_time, srcfile = sf))
-parsed_df <- getParseData(sf)
-close(user_time)
-
-user <- new.env()
-source('time.R', local = user)
 
 context('Module 01')
 test_that('Require the readr package. @readr-package', {

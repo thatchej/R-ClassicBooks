@@ -1,15 +1,23 @@
-import::from(readr, read_csv, .into='datatools')
-import::from(dplyr, all_equal, full_join, select, filter, arrange, .into='datatools')
-import::from(stringr, str_detect, .into='datatools')
-import::from(tidyr, gather, .into='datatools')
-import::from(ggplot2, ggplot, aes, geom_line, .into='datatools')
+library(readr)
+library(dplyr)
+library(stringr)
+library(tidyr)
+library(ggplot2)
+library(testthat)
 
 titles <- read_csv('data/titles.csv')
 stats <- read_csv('data/stats.csv')
+
 books <- full_join(titles, stats)
-dickens <- filter(books, str_detect(author, 'Dickens'))
+
+w <- capture_warnings(dickens <- filter(books, str_detect(author, 'Dickens')))
+
 dickens_stats <- select(dickens, id, words, sentences, to_be_verbs, contractions, pauses, cliches, similes)
+
 published <- read_csv('data/published.csv')
+
 time <- full_join(dickens_stats, published)
+
 time_long <- gather(time, type, value, words:similes)
+
 p <- ggplot(time_long , aes(year, value, color = type)) + geom_line()
