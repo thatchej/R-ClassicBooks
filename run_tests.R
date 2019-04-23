@@ -22,6 +22,9 @@ tests <- function(module = 'all', reporter = 'tap') {
 if (!interactive()) {
   library('optparse')
   library('testthat')
+
+  source('tests/reporter-json.R')
+
   option_list <- list(
     make_option(c('-m', '--module'), type = 'character', default = 'all',
                 help='Module to test.'),
