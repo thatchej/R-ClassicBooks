@@ -1,4 +1,7 @@
-tests <- function(module = 'all', reporter = 'tap') {
+
+tests <- function(module = 'all', reporter = 'project') {
+  source('tests/reporter-project.R')
+  
   if ('testthat' %in% rownames(utils::installed.packages())) {
     library('testthat')
     library('checkmate')
@@ -23,6 +26,7 @@ if (!interactive()) {
   library('optparse')
   library('testthat')
 
+  source('tests/reporter-project.R')
   source('tests/reporter-json.R')
 
   option_list <- list(

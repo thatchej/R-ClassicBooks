@@ -32,7 +32,7 @@ library(testthat)
   .expectation_type(exp) %in% c('success', 'warning')
 }
 
-JsonReporter <- R6::R6Class('JsonReporter',
+ProjectReporter <- R6::R6Class('ProjectReporter',
   inherit = Reporter,
   public = list(
     results = list(),
@@ -40,11 +40,11 @@ JsonReporter <- R6::R6Class('JsonReporter',
     n = 0L,
     has_tests = FALSE,
     contexts = NA_character_,
-                                 
+
     start_context = function(context) {
       self$contexts[self$n + 1] <- context
     },
-                                 
+
     add_result = function(context, test, result) {
       self$has_tests <- TRUE
       tag <- regmatches(test, gregexpr('@(.*)', test))[[1]]
@@ -54,31 +54,30 @@ JsonReporter <- R6::R6Class('JsonReporter',
         self$tags[[self$n]] <- tag
       }
     },
-                                 
+
     end_reporter = function() {
       if (!self$has_tests) {
         return()
       }
-
-      self$cat_line('{ "passed": false, "testResults": [')
+      
       for (i in 1:self$n) {
-
+        if (!is.na(self$contexts[i])) {
+          self$cat_line("# ", self$contexts[i])
+        }
         result <- self$results[[i]]
         result$test <- gsub('@(.*)', '', result$test)
-        
-        self$cat_line('{ "tag": "', self$tags[[i]], '",')
-
         if (.expectation_success(result)) {
-          self$cat_line('"passed": true, "error": null},')
+          self$cat_line(i, '. ', result$test, crayon::green(' <passed>'))
         } else if (.expectation_broken(result)) {
-          self$cat_line('"passed": false, "error": { "message": "', format(result), '"}}' )
-        }
-        
-        if (i != self$n) {
-          self$cat_line(',')
+          self$cat_line(i, '. ', result$test)
+          msg <- gsub('(^|\n)', '\\1  ', format(result))
+          self$cat_line(crayon::red('<failed>'), msg)
+        } else {
+          self$cat_line(i, ' # ', toupper(.expectation_type(result)), ' ',
+            format(result), crayon::green(' <passed>')
+          )
         }
       }
-      self$cat_line(']}')
     }
   )
 )

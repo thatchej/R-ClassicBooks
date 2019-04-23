@@ -67,7 +67,7 @@ test_that('Read the titles data. @read-csv-titles', {
 })
 
 test_that('Read the stats data. @read-csv-stats', {
-  expect('stats' %in% ls(envir = user), 'Does the `titles` data frame exist in `time.R`?')
+  expect('stats' %in% ls(envir = user), 'Does the `stats` data frame exist in `time.R`?')
   expect(isTRUE(all_equal(user$stats, solution$stats)), 'Are you using the `read_csv()` function from the `readr` package to read in the `stats.csv` file?')
 })
 
