@@ -39,6 +39,7 @@ JsonReporter <- R6::R6Class('JsonReporter',
     tags = list(),
     n = 0L,
     has_tests = FALSE,
+    passed = list(),
     contexts = NA_character_,
                                  
     start_context = function(context) {
@@ -53,6 +54,10 @@ JsonReporter <- R6::R6Class('JsonReporter',
         self$results[[self$n]] <- result
         self$tags[[self$n]] <- tag
       }
+      
+      if (.expectation_ok(result)){
+        self$passed[[self$n]] <- TRUE
+      }
     },
                                  
     end_reporter = function() {
@@ -60,7 +65,13 @@ JsonReporter <- R6::R6Class('JsonReporter',
         return()
       }
 
-      self$cat_line('{ "passed": false, "testResults": [')
+      if (all(as.logical(self$passed))) {
+        passed <- 'true'
+      } else {
+        passed <- 'false'
+      }
+      
+      self$cat_line('{ "passed": ', passed, '" testResults": [')
       for (i in 1:self$n) {
 
         result <- self$results[[i]]
@@ -69,7 +80,7 @@ JsonReporter <- R6::R6Class('JsonReporter',
         self$cat_line('{ "tag": "', self$tags[[i]], '",')
 
         if (.expectation_success(result)) {
-          self$cat_line('"passed": true, "error": null},')
+          self$cat_line('"passed": true, "error": null}')
         } else if (.expectation_broken(result)) {
           self$cat_line('"passed": false, "error": { "message": "', format(result), '"}}' )
         }
