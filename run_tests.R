@@ -23,9 +23,11 @@ if (!interactive()) {
   library('optparse')
   library('testthat')
   option_list <- list(
+    make_option(c('-m', '--module'), type = 'character', default = 'all',
+                help='Module to test.'),
     make_option(c('-r', '--reporter'), type = 'character', default = 'junit',
                 help='Reporter to use.')
   )
   opt <- parse_args(OptionParser(option_list=option_list))
-  test_file(paste0(getwd(), '/tests/tests_module1.R'), reporter = opt$reporter)
+  tests(module = opt$module, reporter = opt$reporter)
 }

@@ -131,4 +131,3 @@ test_that('Aesthetic Mappings. @aes', {
   expect(exists('aes_color') && aes_color == 'type', 'Is the `color` mapping in the `aes()` function set to the `type` column?')
   expect(exists('plot_call'), 'Have you called the `plot()` function?')
 })
-
