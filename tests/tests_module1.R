@@ -19,18 +19,28 @@ for (line in parsed) {
       simple_ggplot_call <- TRUE
       geom_line_call <- TRUE
       complex_ggplot_call <- base_ggplot_call[[2]]
-      if(complex_ggplot_call[[2]] == 'time_long') {
-        correct_df <- TRUE
+      if(length(complex_ggplot_call) >= 2){
+        if(complex_ggplot_call[[2]] == 'time_long') {
+          correct_df <- TRUE
+        }
+        if(length(complex_ggplot_call) >= 3) {
+          aes_call <- complex_ggplot_call[[3]]
+          if(length(aes_call) >= 1) {
+            if (is_call(aes_call) && aes_call[[1]] == 'aes') {
+              aes_call_test <- TRUE
+              aes_call_s <- call_standardise(aes_call)
+              aes_x <- aes_call_s$x
+              aes_y <- aes_call_s$y
+              aes_color <- aes_call_s$color
+            }
+          }
+        }
+
       }
-      aes_call <- complex_ggplot_call[[3]]
-      if (is_call(aes_call) && aes_call[[1]] == 'aes') {
-        aes_call_s <- call_standardise(aes_call)
-        aes_x <- aes_call_s$x
-        aes_y <- aes_call_s$y
-        aes_color <- aes_call_s$color
-      }
+     
     }
   }
+  
   if(line[[1]] == 'plot' && line[[2]] == 'p') {
     plot_call <- TRUE
   }
@@ -126,8 +136,9 @@ test_that('Adding a Component. @geom-line', {
 
 test_that('Aesthetic Mappings. @aes', {
   expect(exists('correct_df'), 'Is the `time_long` data frame passed as the first argument to the `ggplot()` function?')
-  expect(exists('aes_x') && aes_x == 'year', 'Is the `x` mapping in the `aes()` function set to the `year` column?')
-  expect(exists('aes_y') && aes_y == 'value', 'Is the `y` mapping in the `aes()` function set to the `value` column?')
-  expect(exists('aes_color') && aes_color == 'type', 'Is the `color` mapping in the `aes()` function set to the `type` column?')
+  expect(exists('aes_call_test'), 'Have you added an `aes()` call to the `ggplot()` function ?')
+  expect(exists('aes_x') && isTRUE(aes_x == 'year'), 'Is the `x` mapping in the `aes()` function set to the `year` column?')
+  expect(exists('aes_y') && isTRUE(aes_y == 'value'), 'Is the `y` mapping in the `aes()` function set to the `value` column?')
+  expect(exists('aes_color') && isTRUE(aes_color == 'type'), 'Is the `color` mapping in the `aes()` function set to the `type` column?')
   expect(exists('plot_call'), 'Have you called the `plot()` function?')
 })
