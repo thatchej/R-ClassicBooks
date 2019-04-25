@@ -65,7 +65,7 @@ JsonReporter <- R6::R6Class("JsonReporter",
           comma <- ''
         }
 
-        self$cat_line(glue('    {{ "tag": "{tag}", "time": {time}, "passed": {passed}, "error": {{ "message": "{result}"}} }}{comma}'))
+        self$cat_line(glue('    {{ "tag": "{tag}", "time": {time}, "passed": {tolower(as.logical(passed))}, "error": {{ "message": "{result}"}} }}{comma}'))
       }
 
       self$cat_line('  ]\n}')
