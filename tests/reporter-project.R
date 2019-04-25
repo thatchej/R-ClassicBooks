@@ -1,37 +1,3 @@
-library(testthat)
-
-.expectation_type <- function(exp) {
-  stopifnot(is.expectation(exp))
-  gsub('^expectation_', '', class(exp)[[1]])
-}
-
-.expectation_success <- function(exp) {
-  .expectation_type(exp) == 'success'
-}
-
-.expectation_failure <- function(exp) {
-  .expectation_type(exp) == 'failure'
-}
-
-.expectation_error <- function(exp) {
-  .expectation_type(exp) == 'error'
-}
-
-.expectation_skip <- function(exp) {
-  .expectation_type(exp) == 'skip'
-}
-
-.expectation_warning <- function(exp) {
-  .expectation_type(exp) == 'warning'
-}
-
-.expectation_broken <- function(exp) {
-  .expectation_failure(exp) || .expectation_error(exp)
-}
-.expectation_ok <- function(exp) {
-  .expectation_type(exp) %in% c('success', 'warning')
-}
-
 ProjectReporter <- R6::R6Class('ProjectReporter',
   inherit = Reporter,
   public = list(
@@ -66,14 +32,15 @@ ProjectReporter <- R6::R6Class('ProjectReporter',
         }
         result <- self$results[[i]]
         result$test <- gsub('@(.*)', '', result$test)
-        if (.expectation_success(result)) {
+
+        if (testthat:::expectation_success(result)) {
           self$cat_line(i, '. ', result$test, crayon::green(' <passed>'))
-        } else if (.expectation_broken(result)) {
+        } else if (testthat:::expectation_broken(result)) {
           self$cat_line(i, '. ', result$test)
           msg <- gsub('(^|\n)', '\\1  ', format(result))
           self$cat_line(crayon::red('<failed>'), msg)
         } else {
-          self$cat_line(i, ' # ', toupper(.expectation_type(result)), ' ',
+          self$cat_line(i, ' # ', toupper(testthat:::expectation_type(result)), ' ',
             format(result), crayon::green(' <passed>')
           )
         }

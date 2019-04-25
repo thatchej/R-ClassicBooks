@@ -1,10 +1,10 @@
-
 tests <- function(module = 'all', reporter = 'project') {
-  source('tests/reporter-project.R')
-  
   if ('testthat' %in% rownames(utils::installed.packages())) {
     library('testthat')
     library('checkmate')
+    
+    source('tests/reporter-project.R')
+    
     if (module == 'module1') {
       fpath <- paste0('tests/tests_', module, '.R')
       if(test_file_exists(fpath)) {
