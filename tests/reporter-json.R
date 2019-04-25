@@ -6,8 +6,7 @@ JsonReporter <- R6::R6Class("JsonReporter",
   public = list(
     timer = NULL,
     test_number = 0,
-    has_tests = FALSE,
-    heading = NULL,
+    test_context = '',
     test_results = tibble(tag = character(), time = numeric(),  passed = numeric(), result = character(), test_number = numeric()),
 
     elapsed_time = function() {
@@ -20,12 +19,9 @@ JsonReporter <- R6::R6Class("JsonReporter",
       self$timer <- private$proctime()
     },
 
-    end_context = function(context) {
-      self$heading <- glue('{{\n"suite": "{context}",\n"timestamp": "{ private$timestamp() }",')
-    },
-
     add_result = function(context, test, result) {
       if (!is.null(test)) { 
+        self$test_context <- context
         self$test_number <- self$test_number + 1
         time <- self$elapsed_time()
         tag <- regmatches(test, gregexpr('@(.*)', test))[[1]]
@@ -48,19 +44,14 @@ JsonReporter <- R6::R6Class("JsonReporter",
         slice(which.min(passed)) %>%
         arrange(test_number)
 
-      self$cat_line(self$heading)
-
       full_pass <- all(as.logical(test_results$passed))
       suiteTime <- sum(test_results$time)
-
       tests <- nrow(test_results)
       failures <- sum(test_results$passed == 0)
       errors <- sum(test_results$passed == -1)
+      timestamp <- private$timestamp()
 
-      if (errors >= 1) {
-        self$cat_line('{')
-      }
-
+      self$cat_line(glue('{{\n"suite": "{self$test_context}", \n"timestamp": "{timestamp}",'))
       self$cat_line(glue('"suiteTime": "{suiteTime}",\n"passed": {tolower(as.character(full_pass))},\n"tests": {tests},\n"failures": {failures},\n"errors": {errors},'))
       self$cat_line('"testResults": [')
 
