@@ -57,6 +57,10 @@ JsonReporter <- R6::R6Class("JsonReporter",
       failures <- sum(test_results$passed == 0)
       errors <- sum(test_results$passed == -1)
 
+      if (errors >= 1) {
+        self$cat_line('{')
+      }
+
       self$cat_line(glue('"suiteTime": "{suiteTime}",\n"passed": {tolower(as.character(full_pass))},\n"tests": {tests},\n"failures": {failures},\n"errors": {errors},'))
       self$cat_line('"testResults": [')
 
